@@ -1,0 +1,52 @@
+<html>
+    <head>
+        <meta charset = "UTF-8" />
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+
+    </head>
+    <body ng-app="myApp" ng-controller="cntrl">
+        <form ng-submit="insertData()">
+            <h3>Add employee</h3>
+            Employee ID: <input type="text" ng-model="id" name="id" required/><br> <br>
+            Employee Name:<input type="text" ng-model="name" name="name" required/><br> <br>
+            Gender:   <input type="radio" ng-model="gender" name="gender" value="male" checked required/> Male  
+            <input type="radio" ng-model="gender" name="gender" value="female" required/> Female<br><br>
+            Email: <input ng-model="email" name="email" type="email" required/> <br> <br>
+            Address: <input ng-model="address" name="address" type="text" required/><br> <br>
+            <input type="submit" value="add"  /><br> <br>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>ID</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat= "employee in employees">
+                    <td>{{employee.name}}</td>
+                    <td>{{employee.id}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <script>
+            var app = angular.module('myApp' , []); 
+            app.controller('cntrl', function($scope, $http){
+                $http.get('/getData').then(function(data) {
+        
+                    $scope.employees = data;
+    });
+
+
+
+                 $scope.insertData = function(){
+                    
+                alert("Ok"); 
+                    } 
+            });
+        
+        </script>
+    
+    </body>
+</html>
+
