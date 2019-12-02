@@ -5,44 +5,73 @@
 
     </head>
     <body ng-app="myApp" ng-controller="cntrl">
-        <form ng-submit="insertData()">
+        <form ng-submit="insertData(emp)" style=" width: 30% ; border: 0.5 solid red;">
             <h3>Add employee</h3>
-            Employee ID: <input type="text" ng-model="id" name="id" required/><br> <br>
-            Employee Name:<input type="text" ng-model="name" name="name" required/><br> <br>
-            Gender:   <input type="radio" ng-model="gender" name="gender" value="male" checked required/> Male  
-            <input type="radio" ng-model="gender" name="gender" value="female" required/> Female<br><br>
-            Email: <input ng-model="email" name="email" type="email" required/> <br> <br>
-            Address: <input ng-model="address" name="address" type="text" required/><br> <br>
+            Employee ID: <input type="text" ng-model="emp.id" name="emp.id" required/><br> <br>
+            Employee Name:<input type="text" ng-model="emp.name" name="emp.name" required/><br> <br>
+            Gender:   <input type="radio" ng-model="emp.gender" name="emp.gender" value="male" checked required/> Male  
+            <input type="radio" ng-model="emp.gender" name="emp.gender" value="female" required/> Female<br><br>
+            Email: <input ng-model="emp.email" name="emp.email" type="emp.email" required/> <br> <br>
+            Address: <input type="text" ng-model="emp.address" name="emp.address"  required/><br> <br>
             <input type="submit" value="add"  /><br> <br>
         </form>
-        <table>
+        <table border="1">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>ID</th>
+                    <th>id</th>
+                    <th>name</th>
+                    <th>gender</th>
+                    <th>email</th>
+                    <th>address</th>
+                    <th> </th>
+                    <th> </th>
+
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat= "employee in employees">
-                    <td>{{employee.name}}</td>
-                    <td>{{employee.id}}</td>
+                <tr >
+                    <td>#252</td>
+                    <td>Doaa</td>
+                    <td>female</td>
+                    <td>doaa-abuiyada@outlook.com</td>
+                    <td>Nasr city</td>
+                    <td><input type="button" value="edit"/></td>
+                    <td><input type="button" value="delete"/></td>
+                </tr>
+                <tr ng-repeat="x in employees">
+                    <td >{{x.id}}</td>
+                    <td>{{x.name}}</td>
+                    <td>{{x.gender}}</td>
+                    <td>{{x.email}}</td>
+                    <td>{{x.address}}</td>
                 </tr>
             </tbody>
         </table>
         <script>
             var app = angular.module('myApp' , []); 
             app.controller('cntrl', function($scope, $http){
-                $http.get('/getData').then(function(data) {
-        
-                    $scope.employees = data;
+
+                $http.get('/employees').then(function(data) {
+                    $scope.employees = data.data;
     });
 
 
 
-                 $scope.insertData = function(){
-                    
-                alert("Ok"); 
+                 $scope.insertData = function(emp){
+                     
+                    data = angular.toJson($scope.form); 
+                    console.log(data);
+                    alert(emp.id);
+                    $http.post('/employees', emp ).then(function(response){
+
+})
+                    /*  var data = {'id': 5555 , 'name' : "na"};
+                    $http.post('/employees', ).then(function(response){
+
+                    }) */
+
                     } 
+                   
             });
         
         </script>
