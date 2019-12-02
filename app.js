@@ -5,8 +5,9 @@ const mysql = require('mysql')
 var app = express(); 
 app.listen(88);
 app.use(express.static('public'));
-app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+
 
 const connection = mysql.createConnection({
    host:"localhost",
@@ -61,7 +62,6 @@ app.get('/employees', function (req, res) {
   
  //rest api to delete record from mysql database
  app.delete('/employees', function (req, res) {
-    console.log(req.body);
     connection.query('DELETE FROM `employee` WHERE `id`=?', [req.body.id], function (error, results, fields) {
        if (error) throw error;
        res.end('Record has been deleted!');
