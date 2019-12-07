@@ -54,7 +54,7 @@ app.get('/employees', function (req, res) {
   
  //rest api to update record into mysql database
  app.put('/employees', function (req, res) {
-    connection.query('UPDATE `employee` SET `employee_name`=?,`employee_salary`=?,`employee_age`=? where `id`=?', [req.body.employee_name,req.body.employee_salary, req.body.employee_age, req.body.id], function (error, results, fields) {
+    connection.query('UPDATE `employee` SET `name`=?,`gender`=?,`email`=?, `address`=? where `id`=?', [req.body.name,req.body.gender, req.body.email,req.body.address, req.body.id], function (error, results, fields) {
        if (error) throw error;
        res.end(JSON.stringify(results));
      });

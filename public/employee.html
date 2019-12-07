@@ -8,7 +8,7 @@
     <body ng-app="myApp" ng-controller="cntrl" >
         <div id="myForm">
             <form ng-submit="insertData(emp) ; reloadRoute()" >
-                <h1 id="formHead">Add employee</h1>
+                <h1 id="formHead">Add/edit employee</h1>
             <label>Employee ID:</label>  <input type="text" ng-model="emp.id" name="emp.id" required/><br> <br>
                 <label>Name:</label> <input type="text" ng-model="emp.name" name="emp.name" required/><br> <br>
                 <label>Gender:</label>    
@@ -16,7 +16,10 @@
                 <input type="radio" ng-model="emp.gender" name="emp.gender" value="female" required/> Female<br><br>
                 <label>Email:</label>  <input type="text" ng-model="emp.email" name="emp.email" name="emp.email" required/> <br> <br>
                 <label>Address:</label>  <input type="text" ng-model="emp.address" name="emp.address"  required/><br> <br>
-                <input type="submit" value="add"  /><br> <br>
+                <input ng-model="emp.add" name="emp.add" type="submit" value="add"  style="margin: 5px;" ng-hide= "IsHidden"/> 
+                <input id="y"ng-model="emp.edit" name="emp.gender" type="button" value="edit" style="margin: 5px;"  ng-click="editRecord(emp); reloadRoute()" ng-hide= "!IsHidden" /> 
+                
+                <br> <br>
             </form>
         </div>
         <table >
@@ -40,7 +43,7 @@
                     <td>{{x.gender}}</td>
                     <td>{{x.email}}</td>
                     <td>{{x.address}}</td>
-                    <td><input type="button" value="edit" style="width: 100%; height: 100%;"/></td>
+                    <td><input type="button" value="edit" ng-click="edit(x) ; ShowHide()" style="width: 100%; height: 100%;"/></td>
                     <td><input type="button" value="delete" ng-click="delete(x.id); reloadRoute()"style="width: 100%; height: 100%;"/></td>
                 </tr>
             </tbody>
@@ -48,7 +51,10 @@
         <script>
             var app = angular.module('myApp' , []); 
             app.controller('cntrl', function($scope, $http){
-
+                $scope.ShowHide = function () {
+                //If DIV is hidden it will be visible and vice versa.
+                $scope.IsHidden = $scope.IsHidden ? false : true;
+                } 
                 $http.get('/employees').then(function(data) {
                     $scope.employees = data.data;
                 });
@@ -72,6 +78,27 @@
                         headers: {'Content-Type': 'application/json;charset=utf-8'}
 
 
+                    })
+
+                }
+
+                $scope.edit= function(emp){
+                   // alert(emp.name); 
+                   $scope.emp = {
+                    id: emp.id,
+                    name: emp.name, 
+                    gender : emp.gender,
+                    email : emp.email, 
+                    address : emp. address
+                }; 
+
+                }
+                $scope.editRecord = function(emp){
+                    $http({
+                        method: 'PUT',
+                        url: '/employees',
+                        data: {'id': emp.id , 'name' : emp.name, 'gender': emp.gender, 'email' : emp.email, 'address': emp.address},
+                        headers: {'Content-Type': 'application/json;charset=utf-8'}
                     })
 
                 }

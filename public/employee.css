@@ -29,6 +29,24 @@ input[type=submit] {
 input[type=submit]:hover {
   background-color: #45a049;
 }
+#y{
+  background-color: #008CBA;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;  }
+
+#editButton{
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+}
 
 
 #myForm{
